@@ -111,7 +111,12 @@ void GameScene::SystemInit() {
 
 void GameScene::Init() {
 
-	Quaternion q = 
+	Quaternion q = MakeAxisAngle(Normalize({1.0f, 1.0f, 1.0f}), 0.44f);
+	Matrix4x4 mat = Matrix::MakeRotate(q);
+
+	for (int32_t i = 4 - 1; i >= 0; --i) {
+		sConsole->Log(std::format("{}, {}, {}, {}", mat.m[i][0], mat.m[i][1], mat.m[i][2], mat.m[i][3]));
+	}
 }
 
 void GameScene::Update() {
