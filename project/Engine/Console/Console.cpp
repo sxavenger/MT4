@@ -12,6 +12,10 @@
 
 const std::string Console::kConsoleName_ = "Sxavenger Engine Console";
 
+const Color4f Console::kCommentout_ = { 0.0f, 0.55f, 0.0f, 1.0f };
+const Color4f Console::kWarning_    = { 0.8f, 0.0f, 0.0f, 1.0f };
+const Color4f Console::kError_      = { 0.8f, 0.8f, 0.0f, 1.0f };
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 // Console class methods
 ////////////////////////////////////////////////////////////////////////////////////////////

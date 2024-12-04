@@ -111,12 +111,32 @@ void GameScene::SystemInit() {
 
 void GameScene::Init() {
 
-	Quaternion q = MakeAxisAngle(Normalize({1.0f, 1.0f, 1.0f}), 0.44f);
-	Matrix4x4 mat = Matrix::MakeRotate(q);
+	Vector3f from0 = Normalize({1.0f, 0.7f, 0.5f});
+	Vector3f to0   = -from0;
+
+	Vector3f from1 = Normalize({-0.6f, 0.9f, 0.2f});
+	Vector3f to1   = Normalize({0.4f, 0.7f, -0.5f});
+
+	Matrix4x4 mat0 = Matrix::MakeRotate(LookAt({1.0f, 0.0f, 0.0f}, {-1.0f, 0.0f, 0.0f}));
+	Matrix4x4 mat1 = Matrix::MakeRotate(LookAt(from0, to0));
+	Matrix4x4 mat2 = Matrix::MakeRotate(LookAt(from1, to1));
+
+	
+	for (int32_t i = 4 - 1; i >= 0; --i) {
+		sConsole->Log(std::format("{:.3f}, {:.3f}, {:.3f}, {:.3f}", mat0.m[i][0], mat0.m[i][1], mat0.m[i][2], mat0.m[i][3]));
+	}
+	sConsole->Log("mat0", Console::kCommentout_);
 
 	for (int32_t i = 4 - 1; i >= 0; --i) {
-		sConsole->Log(std::format("{}, {}, {}, {}", mat.m[i][0], mat.m[i][1], mat.m[i][2], mat.m[i][3]));
+		sConsole->Log(std::format("{:.3f}, {:.3f}, {:.3f}, {:.3f}", mat1.m[i][0], mat1.m[i][1], mat1.m[i][2], mat1.m[i][3]));
 	}
+	sConsole->Log("mat1", Console::kCommentout_);
+
+	for (int32_t i = 4 - 1; i >= 0; --i) {
+		sConsole->Log(std::format("{:.3f}, {:.3f}, {:.3f}, {:.3f}", mat2.m[i][0], mat2.m[i][1], mat2.m[i][2], mat2.m[i][3]));
+	}
+	sConsole->Log("mat2", Console::kCommentout_);
+
 }
 
 void GameScene::Update() {

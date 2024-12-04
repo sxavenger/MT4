@@ -176,13 +176,19 @@ Quaternion ToQuaternion(const Vector3f& euler) {
 
 Quaternion LookAt(const Vector3f& u, const Vector3f& v) {
 	
-	Vector3f up = Normalize(Cross(u, v));
+	Vector3f up = Cross(u, v);
 
 	if (All(up == kOrigin3<float>)) {
-		up = { 0.0f, 1.0f, 0.0f };
+		if (u.x != 0.0f || u.y != 0.0f) {
+			up = { u.y, -u.x, 0.0f };
+
+		} else {
+			up = { u.z, 0.0f, -u.x };
+		}
+		
 	}
 
 	float theta = std::acos(Dot(u, v));
 
-	return MakeAxisAngle(up, theta);
+	return MakeAxisAngle(Normalize(up), theta);
 }
