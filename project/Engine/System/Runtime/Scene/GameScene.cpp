@@ -111,32 +111,27 @@ void GameScene::SystemInit() {
 
 void GameScene::Init() {
 
-	Vector3f from0 = Normalize({1.0f, 0.7f, 0.5f});
-	Vector3f to0   = -from0;
+	Quaternion q1 = { 2.0f, 3.0f, 4.0f, 1.0f };
+	Quaternion q2 = { 1.0f, 3.0f, 5.0f, 2.0f };
 
-	Vector3f from1 = Normalize({-0.6f, 0.9f, 0.2f});
-	Vector3f to1   = Normalize({0.4f, 0.7f, -0.5f});
+	Quaternion identity  = Quaternion::Identity();
 
-	Matrix4x4 mat0 = Matrix::MakeRotate(LookAt({1.0f, 0.0f, 0.0f}, {-1.0f, 0.0f, 0.0f}));
-	Matrix4x4 mat1 = Matrix::MakeRotate(LookAt(from0, to0));
-	Matrix4x4 mat2 = Matrix::MakeRotate(LookAt(from1, to1));
+	Quaternion conjugate = q1.Conjugate();
+	Quaternion inverse   = q1.Inverse();
+	Quaternion normalize = q1.Normalize();
 
-	
-	for (int32_t i = 4 - 1; i >= 0; --i) {
-		sConsole->Log(std::format("{:.3f}, {:.3f}, {:.3f}, {:.3f}", mat0.m[i][0], mat0.m[i][1], mat0.m[i][2], mat0.m[i][3]));
-	}
-	sConsole->Log("mat0", Console::kCommentout_);
+	Quaternion mul12 = q1 * q2;
+	Quaternion mul21 = q2 * q1;
 
-	for (int32_t i = 4 - 1; i >= 0; --i) {
-		sConsole->Log(std::format("{:.3f}, {:.3f}, {:.3f}, {:.3f}", mat1.m[i][0], mat1.m[i][1], mat1.m[i][2], mat1.m[i][3]));
-	}
-	sConsole->Log("mat1", Console::kCommentout_);
+	float norm = q1.Norm();
 
-	for (int32_t i = 4 - 1; i >= 0; --i) {
-		sConsole->Log(std::format("{:.3f}, {:.3f}, {:.3f}, {:.3f}", mat2.m[i][0], mat2.m[i][1], mat2.m[i][2], mat2.m[i][3]));
-	}
-	sConsole->Log("mat2", Console::kCommentout_);
-
+	sConsole->Log(std::format("norm: {}", norm));
+	sConsole->Log(std::format("q2 * q1: {}", mul21));
+	sConsole->Log(std::format("q1 * q2: {}", mul12));
+	sConsole->Log(std::format("normalize: {}", normalize));
+	sConsole->Log(std::format("inverse: {}", inverse));
+	sConsole->Log(std::format("conjugate: {}", conjugate));
+	sConsole->Log(std::format("identity: {}", identity));
 }
 
 void GameScene::Update() {

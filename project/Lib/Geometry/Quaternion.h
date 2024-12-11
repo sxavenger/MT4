@@ -3,7 +3,11 @@
 //-----------------------------------------------------------------------------------------
 // include
 //-----------------------------------------------------------------------------------------
+//* geometry
 #include "Vector3.h"
+
+//* lib
+#include <Lib/Sxl/Formatter.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // Quaternion class
@@ -24,7 +28,7 @@ public:
 
 	static Quaternion Identity();
 
-	Quaternion Conjugation() const;
+	Quaternion Conjugate() const;
 
 	float Norm() const;
 
@@ -43,6 +47,15 @@ public:
 	//=========================================================================================
 
 	float x, y, z, w;
+
+	//=========================================================================================
+	// formatter
+	//=========================================================================================
+
+	template <typename FormatContext>
+	auto format(FormatContext& ctx) const {
+		return std::format_to(ctx.out(), "(x: {}, y: {}, z: {}, w: {})", x, y, z, w);
+	}
 
 };
 
@@ -70,6 +83,12 @@ inline Quaternion operator-(const Quaternion& q) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
+// formatter
+////////////////////////////////////////////////////////////////////////////////////////////
+template <>
+struct std::formatter<Quaternion> : Sxl::BaseFormatter<Quaternion> {};
+
+////////////////////////////////////////////////////////////////////////////////////////////
 // Quaternion methods
 ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -82,6 +101,6 @@ Vector3f RotateVector(const Vector3f& v, const Quaternion& q);
 Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t);
 
 Quaternion ToQuaternion(const Vector3f& euler);
+Quaternion ToQuaternion2(const Vector3f& euler);
 
 Quaternion LookAt(const Vector3f& u, const Vector3f& v);
-
