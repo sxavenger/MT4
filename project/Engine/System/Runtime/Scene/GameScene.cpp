@@ -111,27 +111,31 @@ void GameScene::SystemInit() {
 
 void GameScene::Init() {
 
-	Quaternion q1 = { 2.0f, 3.0f, 4.0f, 1.0f };
-	Quaternion q2 = { 1.0f, 3.0f, 5.0f, 2.0f };
+	Quaternion q = MakeAxisAngle(Normalize({ 1.0f, 0.4f, -0.2f }), 0.45f);
+	Vector3f v   = { 2.1f, -0.9f, 1.3f };
 
-	Quaternion identity  = Quaternion::Identity();
+	Matrix4x4 m = Matrix::MakeRotate(q);
 
-	Quaternion conjugate = q1.Conjugate();
-	Quaternion inverse   = q1.Inverse();
-	Quaternion normalize = q1.Normalize();
+	Vector3f rq = RotateVector(v, q);
+	Vector3f rm = Matrix::Transform(v, m);
 
-	Quaternion mul12 = q1 * q2;
-	Quaternion mul21 = q2 * q1;
+	sConsole->Log(std::format("rotation by matrix: {}", rm));
+	sConsole->Log(std::format("rotation by quaterion: {}", rq));
 
-	float norm = q1.Norm();
+	for (int32_t c = 4 - 1; c >= 0; --c) {
 
-	sConsole->Log(std::format("norm: {}", norm));
-	sConsole->Log(std::format("q2 * q1: {}", mul21));
-	sConsole->Log(std::format("q1 * q2: {}", mul12));
-	sConsole->Log(std::format("normalize: {}", normalize));
-	sConsole->Log(std::format("inverse: {}", inverse));
-	sConsole->Log(std::format("conjugate: {}", conjugate));
-	sConsole->Log(std::format("identity: {}", identity));
+		std::string s = "";
+
+		for (int32_t r = 0; r < 4; ++r) {
+			s += std::to_string(m.m[c][r]) + " ";
+		}
+
+		sConsole->Log(s);
+	}
+	sConsole->Log("matrix: ");
+
+	sConsole->Log(std::format("rotation: {}", q));
+
 }
 
 void GameScene::Update() {
