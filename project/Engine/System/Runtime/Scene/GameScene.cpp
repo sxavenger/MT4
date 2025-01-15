@@ -111,30 +111,19 @@ void GameScene::SystemInit() {
 
 void GameScene::Init() {
 
-	Quaternion q = MakeAxisAngle(Normalize({ 1.0f, 0.4f, -0.2f }), 0.45f);
-	Vector3f v   = { 2.1f, -0.9f, 1.3f };
+	Quaternion r0 = MakeAxisAngle({ 0.71f, 0.71f, 0.0f }, 0.3f);
+	Quaternion r1 = MakeAxisAngle({ 0.71f, 0.0f, 0.71f }, pi_v);
 
-	Matrix4x4 m = Matrix::MakeRotate(q);
+	Quaternion interpolate[5] = {};
+	interpolate[0] = Slerp(r0, r1, 0.0f);
+	interpolate[1] = Slerp(r0, r1, 0.3f);
+	interpolate[2] = Slerp(r0, r1, 0.5f);
+	interpolate[3] = Slerp(r0, r1, 0.7f);
+	interpolate[4] = Slerp(r0, r1, 1.0f);
 
-	Vector3f rq = RotateVector(v, q);
-	Vector3f rm = Matrix::Transform(v, m);
-
-	sConsole->Log(std::format("rotation by matrix: {}", rm));
-	sConsole->Log(std::format("rotation by quaterion: {}", rq));
-
-	for (int32_t c = 4 - 1; c >= 0; --c) {
-
-		std::string s = "";
-
-		for (int32_t r = 0; r < 4; ++r) {
-			s += std::to_string(m.m[c][r]) + " ";
-		}
-
-		sConsole->Log(s);
+	for (int8_t i = 5 - 1; i >= 0; --i) {
+		sConsole->Log(std::format("interpolate[{}]: {}", i, interpolate[i]));
 	}
-	sConsole->Log("matrix: ");
-
-	sConsole->Log(std::format("rotation: {}", q));
 
 }
 
