@@ -112,7 +112,7 @@ void GameScene::SystemInit() {
 void GameScene::Init() {
 
 	Quaternion r0 = MakeAxisAngle({ 0.71f, 0.71f, 0.0f }, 0.3f);
-	Quaternion r1 = -r0;
+	Quaternion r1 = MakeAxisAngle({ 0.71f, 0.0f, 0.71f }, pi_v);
 
 	Quaternion interpolate[5] = {};
 	interpolate[0] = Slerp(r0, r1, 0.0f);
